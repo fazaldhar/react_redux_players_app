@@ -1,4 +1,5 @@
 export default {
   iplTeams : [],
-  players: []
+  players: [],
+  ajaxCallsInProgress: 0
 };

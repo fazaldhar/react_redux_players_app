@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as playerActions from '../../actions/playerActions';
 import PlayerForm from './PlayerForm';
+import toastr from 'toastr';
 
 class ManagePlayerPage extends React.Component {
     constructor(props, context) {
@@ -10,7 +11,8 @@ class ManagePlayerPage extends React.Component {
 
         this.state = {
           player: Object.assign({}, this.props.player),
-          errors: {}
+          errors: {},
+          saving: false
         };
 
         this.updatePlayerState = this.updatePlayerState.bind(this);
@@ -32,7 +34,18 @@ class ManagePlayerPage extends React.Component {
 
     savePlayer(event) {
       event.preventDefault();
-      this.props.actions.savePlayer(this.state.player);
+      this.setState({saving: true});
+      this.props.actions.savePlayer(this.state.player)
+        .then(() => this.redirect())
+        .catch(error => {
+          toastr.error(error);
+          this.setState({saving: false});
+        });
+    }
+
+    redirect() {
+      this.setState({saving: false});
+      toastr.success('Player Saved!');
       this.context.router.push('/players');
     }
 
@@ -44,6 +57,7 @@ class ManagePlayerPage extends React.Component {
             iplTeams={this.props.iplTeams}
             onChange={this.updatePlayerState}
             onSave={this.savePlayer}
+            saving={this.state.saving}
           />
         );
     }

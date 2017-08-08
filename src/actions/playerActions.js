@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import playerApi from '../api/mockPlayerApi';
+import {ajaxCallError, beginAjaxCall} from "./ajaxStatusAction";
 
 /*export function createPlayer(player) {
   return {type: types.CREATE_PLAYER, player}; // es6 syntax player: player
@@ -19,6 +20,7 @@ export function createPlayerSuccess(player) {
 
 export function loadPlayers() {
   return function(dispatch) {
+    dispatch(beginAjaxCall());
     return playerApi.getAllCourses().then(players => {
       dispatch(loadPlayersSuccess(players));
     }).catch(error => {
@@ -29,10 +31,12 @@ export function loadPlayers() {
 
 export function savePlayer(player) {
   return function (dispatch, getState) {
+    dispatch(beginAjaxCall());
     return playerApi.savePlayer(player).then(savedPlayer => {
       player.id ? dispatch(updatePlayerSuccess(savedPlayer)) :
         dispatch(createPlayerSuccess(savedPlayer));
     }).catch(error => {
+      dispatch(ajaxCallError(error));
       throw(error);
     });
   };

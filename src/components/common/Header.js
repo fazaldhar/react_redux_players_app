@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Link, IndexLink} from 'react-router';
+import LoadingDots from './LoadingDots';
 
  class Header extends React.Component {
     render() {
@@ -10,9 +11,14 @@ import {Link, IndexLink} from 'react-router';
           <Link to="/players" activeClassName="active">Players</Link>
           {" | "}
           <Link to="/about" activeClassName="active">About</Link>
+          {this.props.loading && <LoadingDots interval={100} dots={20}/>}
         </nav>
       );
     }
  }
 
- export default Header;
+Header.propTypes = {
+  loading: PropTypes.bool.isRequired
+};
+
+export default Header;

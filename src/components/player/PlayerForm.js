@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import TextInput from '../common/TextInput';
 import SelectInput from '../common/SelectInput';
 
-const PlayerForm = ({player, iplTeams, onSave, onChange, loading, errors}) => {
+const PlayerForm = ({player, iplTeams, onSave, onChange, saving, errors}) => {
   return (
     <form>
       <h1>Manage Player</h1>
@@ -38,8 +38,8 @@ const PlayerForm = ({player, iplTeams, onSave, onChange, loading, errors}) => {
 
       <input
       type="submit"
-      disabled={loading}
-      value={loading ? 'saving' : 'save'}
+      disabled={saving}
+      value={saving ? 'Saving...' : 'save'}
       className="btn btn-primary"
       onClick={onSave}/>
     </form>
@@ -51,7 +51,7 @@ PlayerForm.propTypes = {
   iplTeams: PropTypes.array,
   onSave: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
+  saving: PropTypes.bool,
   errors: PropTypes.object
 };
 
