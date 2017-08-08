@@ -5,10 +5,14 @@ import configureStore from './store/configureStore';
 import {Provider} from 'react-redux';
 import { Router, browserHistory} from 'react-router';
 import routes from './routes';
+import {loadPlayers} from './actions/playerActions';
+import {loadIplTeams} from './actions/iplTeamsActions';
 import './styles/styles.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const store = configureStore();
+store.dispatch(loadPlayers());
+store.dispatch(loadIplTeams());
 
 render(
   <Provider store={store}>
